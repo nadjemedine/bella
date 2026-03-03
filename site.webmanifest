@@ -1,0 +1,20 @@
+{
+  "name": "Aybella Brand",
+  "short_name": "Aybella",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#e9d3c0",
+  "theme_color": "#a18167",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
