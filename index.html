@@ -1747,18 +1747,19 @@
         /* ===== BOTTOM NAV ===== */
         .bottom-nav {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
             height: 68px;
-            background: #A18167;
+            background: rgba(161, 129, 103, 0.95);
             display: flex;
             align-items: center;
             justify-content: space-around;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
             z-index: 2100;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .nav-item {
