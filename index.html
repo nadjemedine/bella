@@ -2871,10 +2871,32 @@
             document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
+        function scrollMainImageToTop() {
+            const img = document.getElementById('mainDetailImg');
+            if (!img) return;
+            const topNav = document.getElementById('topNav');
+            const annBar = document.getElementById('annBar');
+            const navHeight = topNav ? topNav.offsetHeight : 0;
+            const annHeight = (annBar && getComputedStyle(annBar).display !== 'none') ? annBar.offsetHeight : 0;
+            const totalOffset = navHeight + annHeight + 8; // space below fixed elements
+
+            // Use scrollIntoView to align element to top, then compensate for fixed header heights
+            img.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => {
+                window.scrollBy({ top: -totalOffset, behavior: 'smooth' });
+            }, 60);
+        }
+
         function selectColor(el, img) {
             document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
             el.classList.add('active');
             updateMainImg(img, document.querySelector(`.sub-img-thumb[src="${img}"]`) || document.querySelector('.sub-img-thumb'));
+            // Ensure image is visible at its top (account for fixed top nav)
+            try {
+                // Small timeout to allow image src change/layout to stabilize
+                setTimeout(scrollMainImageToTop, 60);
+            } catch (e) { /* ignore */ }
+
             // Stop any previous auto-slide
             stopColorSlide();
             // If selected is beige, start automatic switch between main and alternate image (3s)
