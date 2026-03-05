@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
@@ -759,16 +759,17 @@
 
         .card-img-wrap {
             position: relative;
-            aspect-ratio: 3/4;
             overflow: hidden;
             background: linear-gradient(135deg, var(--beige), var(--gold-light));
         }
 
-        .card-img-wrap img {
+        .card-img-wrap img,
+        .card-main-img {
             width: 100%;
-            height: 100%;
+            height: auto;
             object-fit: cover;
             transition: transform 0.5s ease;
+            display: block;
         }
 
         .product-card:hover .card-img-wrap img {
@@ -786,6 +787,74 @@
             background: linear-gradient(135deg, #e8d9c8, #d4b896);
             color: #000000;
             gap: 8px;
+        }
+
+        /* Main-image horizontal scroll inside product card */
+        .card-main-scroll {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .card-main-scroll img {
+            width: 100%;
+            flex: 0 0 100%;
+            height: auto;
+            scroll-snap-align: center;
+        }
+
+        .card-main-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Left/right navigation areas on the card for paging */
+        .card-nav-left,
+        .card-nav-right {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 38%;
+            z-index: 6;
+            cursor: pointer;
+        }
+
+        .card-nav-left {
+            left: 0;
+        }
+
+        .card-nav-right {
+            right: 0;
+        }
+
+        .card-nav-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: rgba(255, 255, 255, 0.06);
+        }
+
+        .card-nav-toggle svg {
+            width: 34px;
+            height: 34px;
+        }
+
+        /* Color dots shown on product card */
+        .card-colors {
+            display: flex;
+            gap: 8px;
+            padding: 8px 12px 12px;
+            align-items: center;
+        }
+
+        .card-color-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
         }
 
         .img-placeholder .ph-icon {
@@ -2474,12 +2543,26 @@
 
     <script>
         // ========== DATA ==========
+        // Single product for preview: image1 with sub-images a-e
         const products = [
-            { id: 1, img: 'image1.png', category: 'Caftan', nameAr: 'مودال أناقة موكا', nameFr: 'Modale AnaQa Moka', price: 8000, prices: '8.000 DA', descAr: ['أقمشة عالية الجودة - ساري هندي - ساتان إيطالي', 'طقم "أناقة موكا" المكون من قطعتين متناغمتين', 'فستان داخلي من الحرير الناعم باللون اللؤلؤي', 'رداء خارجي (كيمونو) بنقوش زهرية بدرجات الموكا', 'حزام خصر عريض يضفي لمسة عصرية وأنيقة'], descFr: ['Tissus de qualité-Sari indien-Satin italien', 'Ensemble "AnaQa Moka" sophistiqué en deux pièces', 'Robe intérieure en soie fluide couleur blanc perle', 'Cape extérieure ornée de motifs floraux aux nuances mocha', 'Ceinture large assortie soulignant la taille avec élégance'] },
-            { id: 2, img: 'image2.png', category: 'Caftan', nameAr: 'مودال أناقة أخضر ملكي', nameFr: 'Modale AnaQa Vert Royal', price: 8000, prices: '8.000 DA', descAr: ['أقمشة عالية الجودة - ساري هندي - ساتان إيطالي', 'طقم "أناقة ملكية" باللون الأخضر الباستيل الجذاب', 'فستان داخلي ناعم من الحرير باللون الكريمي', 'رداء خارجي خفيف مزين بنقوش زهرية خضراء', 'حزام ساتان أنيق يحدد الخصر بأسلوب عصري'], descFr: ['Tissus de qualité-Sari indien-Satin italien', 'Ensemble "Royale" en nuances de vert pastel', 'Robe de dessous en soie fluide couleur crème', 'Cape légère aux motifs floraux vert sauge raffinés', 'Ceinture en satin délicate pour une silhouette sublimée'] },
-            { id: 3, img: 'image3.png', category: 'Caftan', nameAr: 'مودال أناقة فيروزي ساحر', nameFr: 'Modale AnaQa Turquoise', price: 8000, prices: '8.000 DA', descAr: ['أقمشة عالية الجودة - ساري هندي - ساتان إيطالي', 'طقم "أناقة فيروزية" يجمع بين الانتعاش والرقي', 'فستان سفلي من الحرير الفاخر بلون لؤلؤي ناعم', 'قفطان خارجي شفاف بنقوش زهرية فيروزية', 'حزام ساتان متناغم يبرز جمال التصميم'], descFr: ['Tissus de qualité-Sari indien-Satin italien', 'Ensemble "Turquoise Envoûtante" frais et raffiné', 'Robe de base en soie luxueuse couleur perle', 'Caftan extérieur aux motifs floraux turquoise délicats', 'Ceinture en satin assortie pour une touche finale parfaite'] },
-            { id: 4, img: 'image4.png', category: 'Caftan', nameAr: 'مودال أناقة وردي ناعم', nameFr: 'Modale AnaQa Rose Tendre', price: 8000, prices: '8.000 DA', descAr: ['أقمشة عالية الجودة - ساري هندي - ساتان إيطالي', 'طقم "أناقة وردية" مفعم بالأنوثة والنعومة', 'فستان الحرير الناعم باللون الكريمي الهادئ', 'رداء مشجر بنقوش زهرية بألوان الزهري والبنفسجي', 'حزام ساتان وردي يكتمل به سحر الإطلالة'], descFr: ['Tissus de qualité-Sari indien-Satin italien', 'Ensemble "Rose Tendre" empreint de féminité et de douceur', 'Robe en soie fluide de couleur crème apaisante', 'Cape fleurie aux nuances de rose and de violet raffinées', 'Ceinture en satin rose pour parfaire ce look enchanteur'] },
-            { id: 5, img: 'image5.png', category: 'Caftan', nameAr: 'مودال لالا بايا', nameFr: 'Modèle Lalla Baya', price: 8500, prices: '8.500 DA', descAr: ['كريب جوليا خيار أول', 'تصميم انسيابي يجمع بين البساطة والفخامة', 'أكمام مميزة مطرزة بخيوط الحرير والذهب', 'قماش ملكي عالي الجودة بلمسة ناعمة', 'قصة عصرية مريحة مع حزام خصر أنيق'], descFr: ['Crepe Julia 1er choix', 'Design fluide alliant simplicité et luxe', 'Manches distinctives brodées de fils de soie et d\'or', 'Tissu royal de haute qualité au toucher doux', 'Coupe moderne confortable avec une ceinture élégante'], sizes: ['38', '40', '42', '44', '46', '48', '50', '52'], colors: [{ nameAr: 'بيج', nameFr: 'Beige', img: 'image5.png', code: '#F5F5DC' }, { nameAr: 'اخضر', nameFr: 'Vert', img: 'image5a.png', code: '#2E8B57' }, { nameAr: 'سومو', nameFr: 'Sumo', img: 'image5b.png', code: '#E9967A' }] },
+            {
+                id: 1,
+                img: 'image1.png',
+                subImages: ['image1.png', 'image1a.png', 'image1b.png', 'image1c.png', 'image1d.png', 'image1e.png'],
+                category: 'Caftan',
+                nameAr: 'Modèle lela baya',
+                nameFr: 'Modèle lela baya',
+                price: 5800,
+                prices: '5.800 DA',
+                descAr: ['Tissu : crepe julia + détail avec telidja'],
+                descFr: ['Tissu : crepe julia + détail avec telidja'],
+                sizes: ['36', '38', '40', '42', '44', '46', '48', '50', '52'],
+                colors: [
+                    { nameAr: 'بيج', nameFr: 'Beige', img: 'image1.png', code: '#F5F5DC' },
+                    { nameAr: 'سلمون', nameFr: 'Saumon', img: 'image1s.png', code: '#FA8072' },
+                    { nameAr: 'اخضر', nameFr: 'Vert', img: 'image1v.png', code: '#2E8B57' }
+                ]
+            }
         ];
 
         let cart = JSON.parse(localStorage.getItem('mina_cart')) || [];
@@ -2580,23 +2663,30 @@
                 card.className = 'product-card animate-in';
                 card.style.animationDelay = `${i * 0.05}s`;
                 const isAboveFold = i < 4;
+                const mainImg = (p.subImages && p.subImages.length) ? p.subImages[0] : p.img;
+                const thumbs = (p.subImages && p.subImages.length) ? p.subImages : [p.img];
+                const colorsHTML = (p.colors || []).map(c => `<div class="card-color-dot" title="${c.nameFr}" style="background:${c.code}"></div>`).join('');
+
                 card.innerHTML = `
-      <div class="card-img-wrap">
-        <img src="${p.img}" alt="${p.nameAr}" 
-             ${isAboveFold ? 'fetchpriority="high"' : 'loading="lazy"'} 
-             decoding="async" 
-             onerror="this.parentNode.innerHTML='<div class=\'img-placeholder\'><div class=\'ph-icon\'>👗</div><div class=\'ph-name\'>${p.img}</div></div>'">
-        ${i < 3 ? '<div class="badge-new">NEW</div>' : ''}
-        <button class="cart-icon-btn" onclick="event.stopPropagation(); quickAddToCart(${p.id})">
-          <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        </button>
-      </div>
-      <div class="card-info">
-        <div class="card-category">${p.category}</div>
-        <div class="card-name ar">${p.nameAr}</div>
-        <div class="card-name fr">${p.nameFr}</div>
-        <div class="card-price">${p.prices}</div>
-      </div>`;
+            <div class="card-img-wrap">
+                ${i < 3 ? '<div class="badge-new">NEW</div>' : ''}
+                <button class="cart-icon-btn" onclick="event.stopPropagation(); quickAddToCart(${p.id})">
+                    <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                </button>
+                <div class="card-nav-left" onclick="event.stopPropagation(); scrollCard(this, -1)"><div class="card-nav-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"></polyline></svg></div></div>
+                <div class="card-nav-right" onclick="event.stopPropagation(); scrollCard(this, 1)"><div class="card-nav-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 18 15 12 9 6"></polyline></svg></div></div>
+                <div class="card-main-scroll">
+                    ${thumbs.map(t => `<img src="${t}" class="card-main-img" loading="lazy" onerror="this.style.display='none'">`).join('')}
+                </div>
+            </div>
+            <div class="card-info">
+                <div class="card-category">${p.category}</div>
+                <div class="card-name ar">${p.nameAr}</div>
+                <div class="card-name fr">${p.nameFr}</div>
+                <div class="card-price">${p.prices}</div>
+            </div>
+            <div class="card-colors">${colorsHTML}</div>`;
+
                 card.addEventListener('click', () => openProduct(p));
                 container.appendChild(card);
             });
@@ -2644,14 +2734,14 @@
       </svg>
       <span class="ar">العودة للمتجر</span><span class="fr">Retour à la boutique</span>
     </button>
-    <div style="position: relative;">
-      <img id="mainDetailImg" class="detail-img" src="${p.img}" alt="${p.nameAr}" onerror="this.outerHTML='<div class=\'detail-img-placeholder\'>👗</div>'">
-      <div class="sub-images-gallery">
-        <img class="sub-img-thumb active" src="${p.img}" onclick="updateMainImg('${p.img}', this)">
-        <img class="sub-img-thumb" src="${p.img.replace('.png', 'a.png')}" onerror="this.style.display='none'" onclick="updateMainImg('${p.img.replace('.png', 'a.png')}', this)">
-        <img class="sub-img-thumb" src="${p.img.replace('.png', 'b.png')}" onerror="this.style.display='none'" onclick="updateMainImg('${p.img.replace('.png', 'b.png')}', this)">
-      </div>
-    </div>
+                        <div style="position: relative;">
+            <img id="mainDetailImg" class="detail-img" src="${p.img}" alt="${p.nameAr}" onerror="this.outerHTML='<div class=\'detail-img-placeholder\'>👗</div>'">
+            <div class="sub-images-gallery">
+                ${(p.subImages || [p.img, p.img.replace('.png', 'a.png'), p.img.replace('.png', 'b.png')]).map((src, i) => `
+                    <img class="sub-img-thumb ${i === 0 ? 'active' : ''}" src="${src}" onclick="updateMainImg('${src}', this)" onerror="this.style.display='none'">
+                `).join('')}
+            </div>
+        </div>
     <div class="detail-body">
       <div class="detail-category-tag">${p.category} — AYBELLA ANAQA</div>
       <h1 class="detail-title ar">${p.nameAr}</h1>
@@ -2704,6 +2794,27 @@
             if (!isHistoryAction) {
                 history.pushState({ type: 'detail', id: p.id }, '');
             }
+            // Initialize automatic beige slideshow if the active color is beige
+            setTimeout(() => {
+                try {
+                    stopColorSlide();
+                    const activeColorEl = document.querySelector('.color-option.active');
+                    if (activeColorEl) {
+                        const nameAr = activeColorEl.querySelector('.color-name.ar')?.textContent?.trim();
+                        const nameFr = activeColorEl.querySelector('.color-name.fr')?.textContent?.trim();
+                        if (nameAr === 'بيج' || nameFr === 'Beige') {
+                            const imgs = (p.subImages && p.subImages.length >= 2) ? [p.subImages[0], p.subImages[1]] : [p.img];
+                            if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
+                        } else if (nameAr === 'سلمون' || nameFr === 'Saumon' || nameFr === 'saumon') {
+                            const imgs = (p.subImages && p.subImages.length >= 4) ? [p.subImages[2], p.subImages[3]] : [p.img];
+                            if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
+                        } else if (nameAr === 'اخضر' || nameFr === 'Vert' || nameFr === 'vert') {
+                            const imgs = (p.subImages && p.subImages.length >= 6) ? [p.subImages[4], p.subImages[5]] : [p.img];
+                            if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
+                        }
+                    }
+                } catch (e) { /* ignore */ }
+            }, 80);
         }
 
         function updateMainImg(src, thumb) {
@@ -2713,6 +2824,45 @@
         }
 
         let currentQty = 1;
+        let colorSlideInterval = null;
+        function stopColorSlide() {
+            if (colorSlideInterval) {
+                clearInterval(colorSlideInterval);
+                clearTimeout(colorSlideInterval);
+                colorSlideInterval = null;
+            }
+        }
+        // startColorSlide(images, delay, repeat)
+        // if repeat === false, switch only once (from first to second) after `delay` ms
+        function startColorSlide(images, delay = 3000, repeat = true) {
+            stopColorSlide();
+            if (!images || images.length < 2) return;
+            // show first immediately
+            updateMainImg(images[0], document.querySelector(`.sub-img-thumb[src="${images[0]}"]`) || document.querySelector('.sub-img-thumb'));
+            if (repeat) {
+                let idx = 0;
+                colorSlideInterval = setInterval(() => {
+                    idx = (idx + 1) % images.length;
+                    updateMainImg(images[idx], document.querySelector(`.sub-img-thumb[src="${images[idx]}"]`) || document.querySelector('.sub-img-thumb'));
+                }, delay);
+            } else {
+                // single transition: go to second image after delay then stop
+                colorSlideInterval = setTimeout(() => {
+                    updateMainImg(images[1], document.querySelector(`.sub-img-thumb[src="${images[1]}"]`) || document.querySelector('.sub-img-thumb'));
+                    stopColorSlide();
+                }, delay);
+            }
+        }
+
+        // Scroll card's main image container by one page (left:-1 or right:1)
+        function scrollCard(el, dir) {
+            const card = el.closest('.product-card');
+            if (!card) return;
+            const scroller = card.querySelector('.card-main-scroll');
+            if (!scroller) return;
+            const pageWidth = scroller.clientWidth || card.querySelector('.card-main-img')?.clientWidth || scroller.offsetWidth;
+            scroller.scrollBy({ left: dir * pageWidth, behavior: 'smooth' });
+        }
         function changeQty(d) {
             currentQty = Math.max(1, currentQty + d);
             document.getElementById('detailQty').textContent = currentQty;
@@ -2725,6 +2875,23 @@
             document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
             el.classList.add('active');
             updateMainImg(img, document.querySelector(`.sub-img-thumb[src="${img}"]`) || document.querySelector('.sub-img-thumb'));
+            // Stop any previous auto-slide
+            stopColorSlide();
+            // If selected is beige, start automatic switch between main and alternate image (3s)
+            try {
+                const nameAr = el.querySelector('.color-name.ar')?.textContent?.trim();
+                const nameFr = el.querySelector('.color-name.fr')?.textContent?.trim();
+                if (nameAr === 'بيج' || nameFr === 'Beige') {
+                    const imgs = (currentProduct && currentProduct.subImages && currentProduct.subImages.length >= 2) ? [currentProduct.subImages[0], currentProduct.subImages[1]] : [img];
+                    if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
+                } else if (nameAr === 'سلمون' || nameFr === 'Saumon' || nameFr === 'saumon') {
+                    const imgs = (currentProduct && currentProduct.subImages && currentProduct.subImages.length >= 4) ? [currentProduct.subImages[2], currentProduct.subImages[3]] : [img];
+                    if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
+                } else if (nameAr === 'اخضر' || nameFr === 'Vert' || nameFr === 'vert') {
+                    const imgs = (currentProduct && currentProduct.subImages && currentProduct.subImages.length >= 6) ? [currentProduct.subImages[4], currentProduct.subImages[5]] : [img];
+                    if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
+                }
+            } catch (e) { /* ignore */ }
         }
         function getSelectedSize() {
             const active = document.querySelector('.size-btn.active');
@@ -3116,15 +3283,22 @@
         function preloadImages() {
             // Priority preload: First 4 products
             products.slice(0, 4).forEach(p => {
-                const img = new Image();
-                img.src = p.img;
+                // preload main image and any subImages
+                const imgs = [p.img].concat(p.subImages || []);
+                imgs.forEach(src => {
+                    const img = new Image();
+                    img.src = src;
+                });
             });
 
             // Lazy preload rest after a delay to save bandwidth for initial render
             setTimeout(() => {
                 products.slice(4).forEach(p => {
-                    const img = new Image();
-                    img.src = p.img;
+                    const imgs = [p.img].concat(p.subImages || []);
+                    imgs.forEach(src => {
+                        const img = new Image();
+                        img.src = src;
+                    });
                 });
             }, 2000);
         }
@@ -3134,6 +3308,13 @@
         updateCartBadge();
         loadOrderForm();
         preloadImages();
+
+        // If a product exists, open the first product's detail view for preview
+        if (products.length > 0) {
+            currentProduct = products[0];
+            localStorage.setItem('mina_currentProduct', JSON.stringify(currentProduct));
+            localStorage.setItem('mina_page', 'detail');
+        }
 
         // Initial state for history
         if (currentPage === 'detail' && currentProduct) {
