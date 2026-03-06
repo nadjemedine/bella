@@ -98,7 +98,7 @@
             --text-dark: #000000;
             --card-shadow: 0 8px 40px rgba(17, 17, 17, 0.10);
             --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            --header-h: 150px;
+            --header-h: 128px;
         }
 
         * {
@@ -293,7 +293,7 @@
             top: 32px;
             left: 0;
             width: 100%;
-            height: 150px;
+            height: 128px;
             /* High enough for 120px logo */
             z-index: 2000;
             display: grid;
@@ -310,7 +310,7 @@
         }
 
         .header-top-bar.scrolled {
-            height: 130px;
+            height: 118px;
             --header-bg: rgba(161, 129, 103, 0.95);
             --header-blur: blur(15px);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -402,7 +402,7 @@
         }
 
         .header-top-bar.scrolled .nav-logo img {
-            height: 100px;
+            height: 118px;
         }
 
         .header-top-bar.page-alt .nav-logo img {
@@ -410,7 +410,7 @@
         }
 
         .header-top-bar.page-alt.scrolled .nav-logo img {
-            height: 100px;
+            height: 140px;
         }
 
         .header-top-bar.page-dark .menu-btn span {
@@ -3207,7 +3207,7 @@
                 document.getElementById('sideMenu').classList.remove('page-dark');
                 if (annBar) annBar.classList.remove('page-dark');
                 pg.style.paddingTop = '0';
-                document.documentElement.style.setProperty('--header-h', (window.scrollY > 50 ? 130 : 150) + 32 + 'px');
+                document.documentElement.style.setProperty('--header-h', (window.scrollY > 50 ? 118 : 128) + 32 + 'px');
             }
 
             setTimeout(() => pg.classList.remove('page-transition'), 400);
@@ -3368,12 +3368,12 @@
                 topNav.classList.add('scrolled');
                 sideMenu.classList.add('scrolled-menu');
                 if (annBar) annBar.classList.add('scrolled');
-                if (!isAlt) document.documentElement.style.setProperty('--header-h', (130 + 32) + 'px');
+                if (!isAlt) document.documentElement.style.setProperty('--header-h', (118 + 32) + 'px');
             } else {
                 topNav.classList.remove('scrolled');
                 sideMenu.classList.remove('scrolled-menu');
                 if (annBar) annBar.classList.remove('scrolled');
-                if (!isAlt) document.documentElement.style.setProperty('--header-h', (150 + 32) + 'px');
+                if (!isAlt) document.documentElement.style.setProperty('--header-h', (128 + 32) + 'px');
             }
         });
     </script>
