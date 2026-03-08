@@ -2561,6 +2561,30 @@
                     { nameAr: 'سلمون', nameFr: 'Saumon', img: 'image1s.png', code: '#FA8072' },
                     { nameAr: 'اخضر', nameFr: 'Vert', img: 'image1v.png', code: '#2E8B57' }
                 ]
+            },
+            {
+                id: 2,
+                img: 'image2.jpg',
+                subImages: [
+                    'image2.jpg', 'image2a.jpg', 
+                    'image2b.jpg', 'image2c.jpg', 
+                    'image2d.jpg', 'image2e.jpg', 
+                    'image2f.jpg', 'image2g.jpg'
+                ],
+                category: 'Caftan',
+                nameAr: 'موديل أناقة',
+                nameFr: 'Modèle ANAQA',
+                price: 13500,
+                prices: '13.500 DA',
+                descAr: ['Tissu : satin italien + sari indien'],
+                descFr: ['Tissu : satin italien + sari indien'],
+                sizes: ['36', '38', '40', '42', '44', '46', '48', '50', '52'],
+                colors: [
+                    { nameAr: 'بني', nameFr: 'Brown', img: 'image2.jpg', code: '#8B4513' },
+                    { nameAr: 'أخضر زيتي', nameFr: 'Vert olive', img: 'image2b.jpg', code: '#6B8E23' },
+                    { nameAr: 'أخضر مائي', nameFr: 'Vert d\'eau', img: 'image2d.jpg', code: '#A5D6A7' },
+                    { nameAr: 'وردي', nameFr: 'Rose', img: 'image2f.jpg', code: '#FFB6C1' }
+                ]
             }
         ];
 
@@ -2679,7 +2703,6 @@
                 </div>
             </div>
             <div class="card-info">
-                <div class="card-category">${p.category}</div>
                 <div class="card-name ar">${p.nameAr}</div>
                 <div class="card-name fr">${p.nameFr}</div>
                 <div class="card-price">${p.prices}</div>
@@ -2742,7 +2765,6 @@
             </div>
         </div>
     <div class="detail-body">
-      <div class="detail-category-tag">${p.category} — AYBELLA ANAQA</div>
       <h1 class="detail-title ar">${p.nameAr}</h1>
       <h1 class="detail-title fr">${p.nameFr}</h1>
       <div class="detail-price">${p.prices}</div>
@@ -2801,14 +2823,17 @@
                     if (activeColorEl) {
                         const nameAr = activeColorEl.querySelector('.color-name.ar')?.textContent?.trim();
                         const nameFr = activeColorEl.querySelector('.color-name.fr')?.textContent?.trim();
-                        if (nameAr === 'بيج' || nameFr === 'Beige') {
+                        if (nameAr === 'بيج' || nameFr === 'Beige' || nameAr === 'بني' || nameFr === 'Brown') {
                             const imgs = (p.subImages && p.subImages.length >= 2) ? [p.subImages[0], p.subImages[1]] : [p.img];
                             if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
-                        } else if (nameAr === 'سلمون' || nameFr === 'Saumon' || nameFr === 'saumon') {
+                        } else if (nameAr === 'سلمون' || nameFr === 'Saumon' || nameFr === 'saumon' || nameAr === 'أخضر زيتي' || nameFr === 'Vert olive') {
                             const imgs = (p.subImages && p.subImages.length >= 4) ? [p.subImages[2], p.subImages[3]] : [p.img];
                             if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
-                        } else if (nameAr === 'اخضر' || nameFr === 'Vert' || nameFr === 'vert') {
+                        } else if (nameAr === 'اخضر' || nameFr === 'Vert' || nameFr === 'vert' || nameAr === 'أخضر مائي' || nameFr === 'Vert d\'eau') {
                             const imgs = (p.subImages && p.subImages.length >= 6) ? [p.subImages[4], p.subImages[5]] : [p.img];
+                            if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
+                        } else if (nameAr === 'وردي' || nameFr === 'Rose') {
+                            const imgs = (p.subImages && p.subImages.length >= 8) ? [p.subImages[6], p.subImages[7]] : [p.img];
                             if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
                         }
                     }
@@ -2902,14 +2927,17 @@
             try {
                 const nameAr = el.querySelector('.color-name.ar')?.textContent?.trim();
                 const nameFr = el.querySelector('.color-name.fr')?.textContent?.trim();
-                if (nameAr === 'بيج' || nameFr === 'Beige') {
+                if (nameAr === 'بيج' || nameFr === 'Beige' || nameAr === 'بني' || nameFr === 'Brown') {
                     const imgs = (currentProduct && currentProduct.subImages && currentProduct.subImages.length >= 2) ? [currentProduct.subImages[0], currentProduct.subImages[1]] : [img];
                     if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
-                } else if (nameAr === 'سلمون' || nameFr === 'Saumon' || nameFr === 'saumon') {
+                } else if (nameAr === 'سلمون' || nameFr === 'Saumon' || nameFr === 'saumon' || nameAr === 'أخضر زيتي' || nameFr === 'Vert olive') {
                     const imgs = (currentProduct && currentProduct.subImages && currentProduct.subImages.length >= 4) ? [currentProduct.subImages[2], currentProduct.subImages[3]] : [img];
                     if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
-                } else if (nameAr === 'اخضر' || nameFr === 'Vert' || nameFr === 'vert') {
+                } else if (nameAr === 'اخضر' || nameFr === 'Vert' || nameFr === 'vert' || nameAr === 'أخضر مائي' || nameFr === 'Vert d\'eau') {
                     const imgs = (currentProduct && currentProduct.subImages && currentProduct.subImages.length >= 6) ? [currentProduct.subImages[4], currentProduct.subImages[5]] : [img];
+                    if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
+                } else if (nameAr === 'وردي' || nameFr === 'Rose') {
+                    const imgs = (currentProduct && currentProduct.subImages && currentProduct.subImages.length >= 8) ? [currentProduct.subImages[6], currentProduct.subImages[7]] : [img];
                     if (imgs.length >= 2) startColorSlide(imgs, 3000, false);
                 }
             } catch (e) { /* ignore */ }
