@@ -810,19 +810,20 @@
         .card-nav-left,
         .card-nav-right {
             position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 38%;
-            z-index: 6;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            z-index: 10;
             cursor: pointer;
         }
 
         .card-nav-left {
-            left: 0;
+            left: 5px;
         }
 
         .card-nav-right {
-            right: 0;
+            right: 5px;
         }
 
         .card-nav-toggle {
@@ -830,12 +831,7 @@
             align-items: center;
             justify-content: center;
             height: 100%;
-            color: rgba(255, 255, 255, 0.7);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .product-card:hover .card-nav-toggle {
+            color: #fff;
             opacity: 1;
         }
 
