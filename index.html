@@ -2558,8 +2558,8 @@
                 sizes: ['36', '38', '40', '42', '44', '46', '48', '50', '52'],
                 colors: [
                     { nameAr: 'بيج', nameFr: 'Beige', img: 'image1.png', code: '#F5F5DC' },
-                    { nameAr: 'سلمون', nameFr: 'Saumon', img: 'image1s.png', code: '#FA8072' },
-                    { nameAr: 'اخضر', nameFr: 'Vert', img: 'image1v.png', code: '#2E8B57' }
+                    { nameAr: 'سلمون', nameFr: 'Saumon', img: 'image1a.png', code: '#FA8072' },
+                    { nameAr: 'اخضر', nameFr: 'Vert', img: 'image1b.png', code: '#2E8B57' }
                 ]
             },
             {
@@ -3357,13 +3357,6 @@
         updateCartBadge();
         loadOrderForm();
         preloadImages();
-
-        // If a product exists, open the first product's detail view for preview
-        if (products.length > 0) {
-            currentProduct = products[0];
-            localStorage.setItem('mina_currentProduct', JSON.stringify(currentProduct));
-            localStorage.setItem('mina_page', 'detail');
-        }
 
         // Initial state for history
         if (currentPage === 'detail' && currentProduct) {
